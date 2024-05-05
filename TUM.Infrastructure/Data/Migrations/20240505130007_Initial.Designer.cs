@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TUM.Domain.Context;
+using TUM.Infrastructure.Data;
 
 #nullable disable
 
-namespace TUM.Domain.Migrations
+namespace TUM.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20240504164653_Initial")]
+    [Migration("20240505130007_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace TUM.Domain.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("BotUser", b =>
-                {
-                    b.Property<Guid>("AdminsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("BotsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("AdminsId", "BotsId");
-
-                    b.HasIndex("BotsId");
-
-                    b.ToTable("BotUser");
-                });
 
             modelBuilder.Entity("TUM.Domain.Models.Bot", b =>
                 {
@@ -56,7 +41,22 @@ namespace TUM.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bots");
+                    b.ToTable("bots", (string)null);
+                });
+
+            modelBuilder.Entity("TUM.Domain.Models.BotAdmin", b =>
+                {
+                    b.Property<Guid>("AdminId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BotId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AdminId", "BotId");
+
+                    b.HasIndex("BotId");
+
+                    b.ToTable("bots_admins", (string)null);
                 });
 
             modelBuilder.Entity("TUM.Domain.Models.BotUser", b =>
@@ -77,7 +77,7 @@ namespace TUM.Domain.Migrations
 
                     b.HasIndex("BotId");
 
-                    b.ToTable("BotUsers");
+                    b.ToTable("bots_users", (string)null);
                 });
 
             modelBuilder.Entity("TUM.Domain.Models.User", b =>
@@ -107,22 +107,26 @@ namespace TUM.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("BotUser", b =>
+            modelBuilder.Entity("TUM.Domain.Models.BotAdmin", b =>
                 {
-                    b.HasOne("TUM.Domain.Models.User", null)
+                    b.HasOne("TUM.Domain.Models.User", "Admin")
                         .WithMany()
-                        .HasForeignKey("AdminsId")
+                        .HasForeignKey("AdminId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TUM.Domain.Models.Bot", null)
-                        .WithMany()
-                        .HasForeignKey("BotsId")
+                    b.HasOne("TUM.Domain.Models.Bot", "Bot")
+                        .WithMany("BotAdmins")
+                        .HasForeignKey("BotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Bot");
                 });
 
             modelBuilder.Entity("TUM.Domain.Models.BotUser", b =>
@@ -134,7 +138,7 @@ namespace TUM.Domain.Migrations
                         .IsRequired();
 
                     b.HasOne("TUM.Domain.Models.User", "User")
-                        .WithMany()
+                        .WithMany("BotUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -145,6 +149,13 @@ namespace TUM.Domain.Migrations
                 });
 
             modelBuilder.Entity("TUM.Domain.Models.Bot", b =>
+                {
+                    b.Navigation("BotAdmins");
+
+                    b.Navigation("BotUsers");
+                });
+
+            modelBuilder.Entity("TUM.Domain.Models.User", b =>
                 {
                     b.Navigation("BotUsers");
                 });

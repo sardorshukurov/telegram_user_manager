@@ -1,4 +1,4 @@
-using TUM.Domain;
+using TUM.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

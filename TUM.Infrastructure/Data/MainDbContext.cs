@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using TUM.Domain.Configurations;
 using TUM.Domain.Models;
+using TUM.Infrastructure.Data.Configurations;
 
-namespace TUM.Domain.Context;
+namespace TUM.Infrastructure.Data;
 
 public class MainDbContext : DbContext
 {
