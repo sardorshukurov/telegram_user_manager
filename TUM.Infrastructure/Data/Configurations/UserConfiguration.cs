@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TUM.Domain.Models;
 
-namespace TUM.Domain.Configurations;
+namespace TUM.Infrastructure.Data.Configurations;
 
 public static class UserConfiguration
 {
