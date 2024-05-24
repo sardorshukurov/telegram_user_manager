@@ -1,6 +1,6 @@
-namespace TUM.Domain.Models;
+namespace TUM.Domain.Entities;
 
-public class User
+public class User : IBaseEntity
 {
     public Guid Id { get; set; }
     public long UserId { get; set; }

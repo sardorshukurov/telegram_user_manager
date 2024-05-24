@@ -1,4 +1,4 @@
-namespace TUM.Domain.Models;
+namespace TUM.Domain.Entities;
 
 public class BotUser
 {

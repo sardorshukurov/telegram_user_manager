@@ -1,6 +1,6 @@
-namespace TUM.Domain.Models;
+namespace TUM.Domain.Entities;
 
-public class Bot
+public class Bot : IBaseEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

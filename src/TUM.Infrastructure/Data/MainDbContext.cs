@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TUM.Domain.Models;
+using TUM.Domain.Entities;
 using TUM.Infrastructure.Data.Configurations;
 
 namespace TUM.Infrastructure.Data;
