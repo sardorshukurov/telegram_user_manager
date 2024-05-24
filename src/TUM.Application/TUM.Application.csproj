@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TUM.Domain\TUM.Domain.csproj" />
+      <ProjectReference Include="..\TUM.Infrastructure\TUM.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

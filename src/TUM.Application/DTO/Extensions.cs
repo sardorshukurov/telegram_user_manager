@@ -16,6 +16,17 @@ public static class Extensions
         return new UserDto(user.Id, user.UserId, user.UserName);
     }
 
+    public static User AsEntity(this AddUserDto dto)
+    {
+        return new User
+        {
+            UserId = dto.UserId,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            UserName = dto.UserName,
+            PhoneNumber = dto.PhoneNumber
+        };
+    }
     public static Bot AsEntity(this CreateBotDto dto)
     {
         return new Bot
