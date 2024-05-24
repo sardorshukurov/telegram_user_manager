@@ -2,7 +2,7 @@ namespace TUM.Domain.Entities;
 
 public class Bot : IBaseEntity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public virtual ICollection<User> Users { get; set; } = [];
