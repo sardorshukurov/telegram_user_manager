@@ -23,15 +23,15 @@ public class BotService : IBotService
         _userRepository = userRepository;
     }
 
-    public async Task<BotDto?> GetAsync(long adminId)
-    {
-        var bot = await _repository.GetOneAsync(
-            b => b.BotAdmins
-            .Select(ba => ba.Admin.UserId)
-            .Contains(adminId));
-
-        return bot?.AsDto();
-    }
+    // public async Task<BotDto?> GetAsync(long adminId)
+    // {
+    //     var bot = await _repository.GetOneAsync(
+    //         b => b.BotAdmins
+    //         .Select(ba => ba.Admin.UserId)
+    //         .Contains(adminId));
+    //
+    //     return bot?.AsDto();
+    // }
 
     public async Task<IEnumerable<BotDto>> GetAllAsync(long adminId)
     {
@@ -95,6 +95,34 @@ public class BotService : IBotService
         
         botUser!.IsBanned = ban;
         await _botUserRepository.UpdateAsync(botUser.Id, botUser);
+    }
+
+    public async Task AddBotAsync(CreateBotDto bot, long adminId)
+    {
+        if (await _repository.GetOneAsync(b => b.UserName == bot.UserName) is null)
+        {
+            await _repository.CreateAsync(bot.AsEntity());
+        }
+
+        var addedBot = (await _repository.GetOneAsync(b => b.UserName == bot.UserName))!;
+
+        var admin = await _userRepository.GetOneAsync(u => u.UserId == adminId);
+        if (admin is null)
+        {
+            var user = new AddUserDto(Guid.NewGuid(),
+                126400995,
+                "sardortg",
+                $"admin of {bot.Name}",
+                string.Empty,
+                string.Empty);
+            
+            await _userRepository.CreateAsync(user.AsEntity());
+            addedBot.Admins.Add((await _userRepository.GetOneAsync(u => u.UserId == adminId))!);
+        }
+        else
+        {
+            addedBot.Admins.Add(admin);
+        }
     }
 
     private async Task<bool> IsEligible(Guid botId, long userId)
