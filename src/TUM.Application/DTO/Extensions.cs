@@ -13,7 +13,9 @@ public static class Extensions
 
     public static UserDto AsDto(this User user)
     {
-        return new UserDto(user.Id, user.UserId, user.UserName);
+        return new UserDto(user.Id, user.UserId, user.UserName,
+                        user.LastTimeActive, user.AddedDate, 
+            user.Bots.Select(b => b.UserName).ToList());
     }
 
     public static User AsEntity(this AddUserDto dto)
