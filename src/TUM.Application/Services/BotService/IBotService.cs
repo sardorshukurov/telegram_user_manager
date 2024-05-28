@@ -10,5 +10,5 @@ public interface IBotService
     Task AddUserAsync(long adminId, Guid botId, AddUserDto user, bool isAdmin);
     Task RemoveUserAsync(long adminId, Guid botId, long userId, bool isAdmin);
     Task ChangeBanStatusAsync(long adminId, Guid botId, long userId, bool ban);
-    Task AddBotAsync(CreateBotDto bot,  long adminId);
+    Task AddBotAsync(CreateBotDto bot);
 }

@@ -18,10 +18,10 @@ public static class DependencyInjection
     
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddTransient<IRepository<User>, Repository<User>>();
-        services.AddTransient<IRepository<Bot>, Repository<Bot>>();
-        services.AddTransient<IRepository<BotAdmin>, Repository<BotAdmin>>();
-        services.AddTransient<IRepository<BotUser>, Repository<BotUser>>();
+        services.AddScoped<IRepository<User>, Repository<User>>();
+        services.AddScoped<IRepository<Bot>, Repository<Bot>>();
+        services.AddScoped<IRepository<BotAdmin>, Repository<BotAdmin>>();
+        services.AddScoped<IRepository<BotUser>, Repository<BotUser>>();
 
         return services;
     }

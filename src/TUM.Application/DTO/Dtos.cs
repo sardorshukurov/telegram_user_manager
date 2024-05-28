@@ -7,5 +7,5 @@ public record UserDto(Guid Id, long UserId, string UserName,
     ICollection<string> BotUserNames);
 public record AddUserDto(Guid Id, long UserId, string UserName,
     string FirstName, string LastName, string PhoneNumber);
-public record CreateBotDto(string Name, string UserName);
+public record CreateBotDto(string Name, string UserName, long AdminId);
 public record UpdateBotDto(string Name, string UserName);

@@ -42,18 +42,33 @@ public class Repository<T> : IRepository<T> where T : class, IBaseEntity
         }
     }
 
-    public async Task<T?> GetOneAsync(Expression<Func<T, bool>> filter)
+    public async Task<T?> GetOneAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties)
     {
-        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(filter);
+        IQueryable<T> query = _dbSet;
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+        return await query.AsNoTracking().FirstOrDefaultAsync(filter);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties)
     {
-        return await _dbSet.AsNoTracking().ToListAsync();
+        IQueryable<T> query = _dbSet;
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+        return await query.AsNoTracking().ToListAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAllByFilterAsync(Expression<Func<T, bool>> filter)
+    public async Task<IEnumerable<T>> GetAllByFilterAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties)
     {
-        return await _dbSet.AsNoTracking().Where(filter).ToListAsync();
+        IQueryable<T> query = _dbSet;
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+        return await query.AsNoTracking().Where(filter).ToListAsync();
     }
 }

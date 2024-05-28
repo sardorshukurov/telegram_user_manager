@@ -5,8 +5,8 @@ using TUM.Application.Services.BotService;
 
 namespace TUM.API.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class BotController : ControllerBase
     {
         private readonly IBotService _service;
@@ -16,7 +16,7 @@ namespace TUM.API.Controllers
             _service = service;
         }
 
-        [HttpGet(nameof(adminId))]
+        [HttpGet("GetAllBots/{adminId}")]
         public async Task<ActionResult<IEnumerable<BotDto>>> GetAllBots(long adminId)
         {
             try
@@ -30,8 +30,7 @@ namespace TUM.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("/addUser")]
+        [HttpPost("addUser")]
         public async Task<IActionResult> AddUser(long adminId, Guid botId, AddUserDto user, bool isAdmin)
         {
             try
@@ -46,7 +45,7 @@ namespace TUM.API.Controllers
             }
         }
         
-        [HttpDelete(nameof(userId))]
+        [HttpDelete("removeUser/{userId}")]
         public async Task<IActionResult> RemoveUser(long userId, long adminId, Guid botId, bool isAdmin)
         {
             try
@@ -61,7 +60,7 @@ namespace TUM.API.Controllers
             }
         }
 
-        [HttpPut(nameof(userId))]
+        [HttpPut("changeBanStatus/{userId}")]
         public async Task<IActionResult> ChangeBanStatus(long userId, long adminId, Guid botId, bool ban)
         {
             try
@@ -76,13 +75,12 @@ namespace TUM.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("/addBot")]
-        public async Task<IActionResult> AddBot(CreateBotDto bot, long adminId)
+        [HttpPost("addBot")]
+        public async Task<IActionResult> AddBot(CreateBotDto bot)
         {
             try
             {
-                await _service.AddBotAsync(bot, adminId);
+                await _service.AddBotAsync(bot);
                 return Ok();
             }
             catch (Exception e)
