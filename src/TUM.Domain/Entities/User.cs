@@ -10,6 +10,5 @@ public class User : IBaseEntity
     public string PhoneNumber { get; set; } = string.Empty;
     public DateTimeOffset AddedDate { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset LastTimeActive { get; set; } = DateTimeOffset.UtcNow;
-    public virtual ICollection<Bot> Bots { get; set; } = [];
     public virtual ICollection<BotUser> BotUsers { get; set; } = [];
 }

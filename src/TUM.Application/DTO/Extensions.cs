@@ -6,16 +6,16 @@ public static class Extensions
 {
     public static BotDto AsDto(this Bot bot)
     {
-        var users = bot.Users.Select(u => u.AsDto()).ToList();
-        var admins = bot.Admins.Select(a => a.AsDto()).ToList();
+        var users = bot.BotUsers.Select(u => u.User.AsDto()).ToList();
+        var admins = bot.BotAdmins.Select(a => a.Admin.AsDto()).ToList();
         return new BotDto(bot.Id, bot.Name, bot.UserName, users, admins);
     }
 
     public static UserDto AsDto(this User user)
     {
         return new UserDto(user.Id, user.UserId, user.UserName,
-                        user.LastTimeActive, user.AddedDate, 
-            user.Bots.Select(b => b.UserName).ToList());
+                       user.LastTimeActive, user.AddedDate, 
+            user.BotUsers.Select(b => b.Bot.UserName).ToList());
     }
 
     public static User AsEntity(this AddUserDto dto)

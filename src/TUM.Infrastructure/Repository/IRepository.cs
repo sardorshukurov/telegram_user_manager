@@ -10,4 +10,5 @@ public interface IRepository<T>
     Task<T?> GetOneAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties);
     Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);
     Task<IEnumerable<T>> GetAllByFilterAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includeProperties);
+    Task SaveChangesAsync();
 }
