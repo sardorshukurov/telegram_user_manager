@@ -16,7 +16,7 @@ public class UserService : IUserService
     public async Task<IEnumerable<UserDto>> GetAllAsync(Guid botId)
     {
         var users= await _repository.GetAllByFilterAsync(
-            a => a.Bots.Select(b => b.Id).Contains(botId));
+            a => a.BotUsers.Select(b => b.BotId).Contains(botId));
 
         return users.Select(u => u.AsDto());
     }
@@ -27,5 +27,6 @@ public class UserService : IUserService
         user.LastTimeActive = DateTimeOffset.UtcNow;
 
         await _repository.UpdateAsync(user.Id, user);
+        await _repository.SaveChangesAsync();
     }
 }

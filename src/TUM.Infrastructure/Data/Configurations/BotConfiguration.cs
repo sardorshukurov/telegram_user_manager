@@ -8,22 +8,28 @@ public static class BotConfiguration
     public static void ConfigureBot(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bot>()
-            .HasMany(b => b.Admins)
-            .WithMany(b => b.Bots)
-            .UsingEntity<BotAdmin>(
-                j =>
-                {
-                    j.HasKey(ba => new { ba.AdminId, ba.BotId });
-                    j.ToTable("bots_admins");
-                })
-            .HasMany(b => b.Users)
-            .WithMany(u => u.Bots)
-            .UsingEntity<BotUser>(
-                j =>
-                {
-                    j.HasKey(bu => new { bu.UserId, bu.BotId });
-                    j.ToTable("bots_users");
-                })
+            .HasMany(b => b.BotAdmins)
+            .WithOne(ba => ba.Bot)
+            .HasForeignKey(ba => ba.BotId);
+
+        modelBuilder.Entity<Bot>()
+            .HasMany(b => b.BotUsers)
+            .WithOne(bu => bu.Bot)
+            .HasForeignKey(bu => bu.BotId);
+
+        modelBuilder.Entity<BotAdmin>()
+            .HasKey(ba => new { ba.AdminId, ba.BotId });
+
+        modelBuilder.Entity<BotAdmin>()
+            .ToTable("bots_admins");
+
+        modelBuilder.Entity<BotUser>()
+            .HasKey(bu => new { bu.UserId, bu.BotId });
+
+        modelBuilder.Entity<BotUser>()
+            .ToTable("bots_users");
+
+        modelBuilder.Entity<Bot>()
             .ToTable("bots");
     }
 }

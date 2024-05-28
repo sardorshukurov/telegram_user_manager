@@ -19,7 +19,6 @@ public class Repository<T> : IRepository<T> where T : class, IBaseEntity
     public async Task CreateAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Guid id)
@@ -28,7 +27,6 @@ public class Repository<T> : IRepository<T> where T : class, IBaseEntity
         if (entity != null)
         {
             _dbSet.Remove(entity);
-            await _context.SaveChangesAsync();
         }
     }
 
@@ -38,7 +36,6 @@ public class Repository<T> : IRepository<T> where T : class, IBaseEntity
         if (existingEntity != null)
         {
             _context.Entry(existingEntity).CurrentValues.SetValues(entity);
-            await _context.SaveChangesAsync();
         }
     }
 
@@ -70,5 +67,10 @@ public class Repository<T> : IRepository<T> where T : class, IBaseEntity
             query = query.Include(includeProperty);
         }
         return await query.AsNoTracking().Where(filter).ToListAsync();
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
     }
 }
