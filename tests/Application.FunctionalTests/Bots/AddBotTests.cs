@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using TUM.Application.DTO;
 using TUM.Application.Services.BotService;
 using TUM.Domain.Entities;
-using TUM.Infrastructure.Data;
 using TUM.Infrastructure.Repository;
 
 namespace Application.FunctionalTests.Bots;
@@ -17,7 +16,6 @@ public class AddBotTests : BaseTextFixture
         var scopedServices = scope.ServiceProvider;
         var botRepository = scopedServices.GetRequiredService<IRepository<Bot>>();
         var botService = scopedServices.GetRequiredService<IBotService>();
-        var dbContext = scopedServices.GetRequiredService<MainDbContext>();
 
         var bot = new CreateBotDto("Pipisa", "PipisaBot", 53759504);
             
@@ -37,7 +35,6 @@ public class AddBotTests : BaseTextFixture
         var scopedServices = scope.ServiceProvider;
         var botRepository = scopedServices.GetRequiredService<IRepository<Bot>>();
         var botService = scopedServices.GetRequiredService<IBotService>();
-        var dbContext = scopedServices.GetRequiredService<MainDbContext>();
 
         var bot = new CreateBotDto("Pipisa", "PipisaBot", 53759504);
 
